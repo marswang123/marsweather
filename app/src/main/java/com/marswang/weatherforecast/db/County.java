@@ -1,5 +1,7 @@
 package com.marswang.weatherforecast.db;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.litepal.crud.DataSupport;
 
 /**
@@ -8,8 +10,13 @@ import org.litepal.crud.DataSupport;
 
 public class County extends DataSupport {
     private int id;
-    private String name;
+
+    @SerializedName("name")
+    private String countyName;
+
+    @SerializedName("weather_id")
     private String weatherId;
+
     private int cityId;
 
     public int getId() {
@@ -20,12 +27,12 @@ public class County extends DataSupport {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCountyName() {
+        return countyName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCountyName(String countyName) {
+        this.countyName = countyName;
     }
 
     public String getWeatherId() {

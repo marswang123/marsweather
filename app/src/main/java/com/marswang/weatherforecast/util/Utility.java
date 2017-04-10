@@ -7,6 +7,11 @@ import com.google.gson.reflect.TypeToken;
 import com.marswang.weatherforecast.db.City;
 import com.marswang.weatherforecast.db.County;
 import com.marswang.weatherforecast.db.Province;
+import com.marswang.weatherforecast.gson.Weather;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -15,6 +20,8 @@ import java.util.List;
  */
 
 public class Utility {
+    private static final String TAG = "Utility";
+
     /**
      * 解析和处理服务器返回的省级数据
      */
@@ -25,7 +32,7 @@ public class Utility {
 
             for(Province provinceObject:provinceData){
                 Province province = new Province();
-                province.setName(provinceObject.getName());
+                province.setProvinceName(provinceObject.getProvinceName());
                 province.setProvinceCode(provinceObject.getId());
                 province.save();
             }
@@ -47,7 +54,7 @@ public class Utility {
             List<City> cityData = gson.fromJson(response, new TypeToken<List<City>>(){}.getType());
             for (City cityObject:cityData){
                 City city = new City();
-                city.setName(cityObject.getName());
+                city.setCityName(cityObject.getCityName());
                 city.setCityCode(cityObject.getId());
                 city.setProvinceId(provinceId);
                 city.save();
@@ -65,7 +72,7 @@ public class Utility {
             List<County> countyData = gson.fromJson(response,new TypeToken<List<County>>(){}.getType() );
             for (County countyObject :countyData){
                 County county = new County();
-                county.setName(countyObject.getName());
+                county.setCountyName(countyObject.getCountyName());
                 county.setWeatherId(countyObject.getWeatherId());
                 county.setCityId(cityId);
                 county.save();
@@ -75,4 +82,23 @@ public class Utility {
         }
         return false;
     };
+
+    /**
+     * 将JOS解析成weather实体类
+     * @param response
+     * @return
+     */
+     public static Weather handleWeatherResponse(String response){
+         try {
+             JSONObject jsonObject = new JSONObject(response);
+             JSONArray jsonArray =jsonObject.getJSONArray("HeWeather");
+             String weatherContent = jsonArray.getJSONObject(0).toString();
+             return  new Gson().fromJson(weatherContent,Weather.class);
+
+         } catch (JSONException e) {
+             e.printStackTrace();
+         }
+         return null;
+     };
+
 }

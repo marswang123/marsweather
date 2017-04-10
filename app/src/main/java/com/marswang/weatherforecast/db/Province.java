@@ -1,5 +1,7 @@
 package com.marswang.weatherforecast.db;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.litepal.crud.DataSupport;
 
 /**
@@ -8,7 +10,10 @@ import org.litepal.crud.DataSupport;
 
 public class Province  extends DataSupport{
     private int id;
-    private String name; //省
+
+    @SerializedName("name")
+    private String provinceName; //省
+
     private int provinceCode;//省的编码
 
     public int getId() {
@@ -19,12 +24,12 @@ public class Province  extends DataSupport{
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getProvinceName() {
+        return provinceName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
     }
 
     public int getProvinceCode() {
