@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 
 import com.marswang.weatherforecast.gson.Weather;
 import com.marswang.weatherforecast.util.HttpUtil;
+import com.marswang.weatherforecast.util.LogUtil;
 import com.marswang.weatherforecast.util.Utility;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class AutoUpdateService extends Service {
+    private static final String TAG = "AutoUpdateService";
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -28,8 +30,15 @@ public class AutoUpdateService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        updateWeather();
-        updateBingPic();
+        LogUtil.w(TAG,"run");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                updateWeather();
+                updateBingPic();
+            }
+        }).start();
+
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         int anHour = 8 * 60 * 60 * 1000; // 这是8小时的毫秒数
         long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
