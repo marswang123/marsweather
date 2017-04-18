@@ -11,12 +11,37 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    productFlavors {
+        qihoo{
+            applicationId "com.weatherforecast.android.qihoo"
+        }
+
+        baidu{
+            applicationId "com.weatherforecast.android.baidu"
+        }
+
+        yingyongbao{
+            applicationId "com.weatherforecast.android.yingyongbao"
+        }
+    }
+
+    signingConfigs {
+        config {
+            storeFile file(KEY_PATH)
+            storePassword KEY_PASS
+            keyAlias ALIAS_NAME
+            keyPassword ALIAS_PASS
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
+
 }
 
 dependencies {
@@ -25,10 +50,13 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
+    //Material Design库
     compile 'com.android.support:design:24.2.1'
+    //litepal数据库
     compile 'org.litepal.android:core:1.4.1'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.google.code.gson:gson:2.7'
+    //Glide图片加载库
     compile 'com.github.bumptech.glide:glide:3.7.0'
     testCompile 'junit:junit:4.12'
 }

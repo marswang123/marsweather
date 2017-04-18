@@ -9,6 +9,7 @@
         android:id="@+id/bing_pic_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:src="@drawable/bg"
         android:scaleType="centerCrop" />
 
     <android.support.v4.widget.DrawerLayout
